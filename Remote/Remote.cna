@@ -969,6 +969,97 @@ Usage:   reg_delete [OPT:HOSTNAME] [HIVE] [REGPATH] [OPT:REGVALUE]
 );
 
 
+#reg_rename [OPT:HOSTNAME] [HIVE] [REGPATH] [OPT:OLDVALUENAME] [NEWNAME]
+alias reg_rename
+{
+    local('$hostname $hive $path $oldname $newname $i $iskey $remaining $args');
+
+    if(size(@_) < 4)
+    {
+        berror($1, beacon_command_detail("reg_rename"));
+        return;
+    }
+    else
+    {
+        if($2 in %reghives)
+        {
+            # targeting local system
+            $hostname = $null;
+            $i = 1;
+        }
+        else
+        {
+            $hostname = "\\\\" . $2;
+            $i = 2;
+        }
+
+        if (@_[$i] in %reghives)
+        {
+            $hive = %reghives[@_[$i]];
+            $i++;
+        }
+        else
+        {
+            berror($1, beacon_command_detail("reg_rename"));
+            berror($1, "Provided registry hive value is invalid");
+            return;
+        }
+
+        $path = @_[$i];
+        $i++;
+
+        # We have either 1 more arg (NEWNAME -> rename key)
+        # or 2 more args (OLDVALUENAME, NEWNAME -> rename value)
+        $remaining = size(@_) - $i;
+        if($remaining == 1)
+        {
+            $iskey = 1;
+            $oldname = "";
+            $newname = @_[$i];
+        }
+        else if($remaining == 2)
+        {
+            $iskey = 0;
+            $oldname = @_[$i];
+            $i++;
+            $newname = @_[$i];
+        }
+        else
+        {
+            berror($1, beacon_command_detail("reg_rename"));
+            berror($1, "Invalid number of arguments for reg_rename");
+            return;
+        }
+
+        $args = bof_pack($1, "zizzzi", $hostname, $hive, $path, $oldname, $newname, $iskey);
+        beacon_inline_execute($1, readbof($1, "reg_rename"), "go", $args);
+    }
+}
+
+beacon_command_register(
+    "reg_rename",
+    "Renames a registry key or value",
+    "
+Command: reg_rename 
+Summary: This command renames the specified registry key (or value) on the 
+         target host.
+Usage:   reg_rename [OPT:HOSTNAME] [HIVE] [REGPATH] [OPT:OLDVALUENAME] [NEWNAME]
+         HOSTNAME       Optional. The host to connect to and run the command on.
+         HIVE           Required. The registry hive containing the REGPATH. Possible 
+                        values:
+                          HKLM
+                          HKCU
+                          HKCU_LOCAL_IMP (if impersonating a user, reference their HKCU locally)
+                          HKU
+                          HKCR
+         REGPATH        Required. The registry path to the key (or parent key of the value).
+         OLDVALUENAME   Optional. The registry value name to rename. If omitted, the key
+                        specified by REGPATH itself is renamed to NEWNAME.
+         NEWNAME        Required. The new name for the key or value.
+"
+);
+
+
 #reg_save [HIVE] [REGPATH] [FILEOUT]
 alias reg_save
 {

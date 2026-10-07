@@ -35,6 +35,7 @@ You are welcome to use these, but issues opened related to these will be closed 
 |ProcessDestroy| ProcessDestroy [PID] [OPT:HANDLEID] | Close handle(s) in a process|
 |ProcessListHandles| ProcessListHandles [PID] | List all open handles in a specified process|
 |reg_delete| reg_delete [OPT:HOSTNAME] [HIVE] [REGPATH] [OPT:REGVALUE] | Delete a registry key|
+|reg_rename| reg_rename [OPT:HOSTNAME] [HIVE] [REGPATH] [OPT:OLDVALUENAME] [NEWNAME] | Rename a registry key or value|
 |reg_save| reg_save [HIVE] [REGPATH] [FILEOUT] | Save a registry hive to disk|
 |reg_set| reg_set [OPT:HOSTNAME] [HIVE] [KEY] [VALUE] [TYPE] [DATA] | Set / create a registry key|
 |sc_config| sc_config [SVCNAME] [BINPATH] [ERRORMODE] [STARTMODE] [OPT:HOSTNAME] | Configure an existing service|

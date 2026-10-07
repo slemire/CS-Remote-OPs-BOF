@@ -417,6 +417,7 @@ WINADVAPI LONG WINAPI ADVAPI32$RegSaveKeyExA(HKEY hKey,LPCSTR lpFile,LPSECURITY_
 WINADVAPI LONG WINAPI ADVAPI32$RegSetValueExA(HKEY hKey,LPCSTR lpValueName,DWORD Reserved,DWORD dwType,CONST BYTE *lpData,DWORD cbData);
 WINADVAPI LONG WINAPI ADVAPI32$RegSetValueExW(HKEY hKey,LPCWSTR lpValueName,DWORD Reserved,DWORD dwType,CONST BYTE *lpData,DWORD cbData);
 WINADVAPI LONG WINAPI ADVAPI32$RegOpenCurrentUser(REGSAM samDesired, PHKEY phkResult);
+WINADVAPI LONG WINAPI ADVAPI32$RegRenameKey(HKEY hKey, LPCWSTR lpSubKeyName, LPCWSTR lpNewKeyName);
 WINADVAPI WINBOOL WINAPI ADVAPI32$InitiateSystemShutdownExA(LPSTR lpMachineName, LPSTR lpMessage, DWORD dwTimeout, BOOL bForceAppsClosed, BOOL bRebootAfterShutdown, DWORD dwReason);
 
 //NTDLL
@@ -876,6 +877,7 @@ WINBASEAPI WINBOOL WINAPI ADVAPI32$SystemFunction036(PVOID RandomBuffer,ULONG Ra
 #define ADVAPI32$RegSetValueExA RegSetValueExA
 #define ADVAPI32$RegSetValueExW RegSetValueExW
 #define ADVAPI32$RegOpenCurrentUser RegOpenCurrentUser
+#define ADVAPI32$RegRenameKey RegRenameKey
 #define ADVAPI32$InitiateSystemShutdownExA InitiateSystemShutdownExA
 
 //NTDLL

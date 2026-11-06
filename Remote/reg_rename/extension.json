@@ -1,0 +1,66 @@
+{
+  "name": "reg_rename",
+  "version": "1.0.0",
+  "command_name": "reg_rename",
+  "extension_author": "TrustedSec",
+  "original_author": "Simon Lemire, TrustedSec",
+  "repo_url": "https://github.com/trustedsec/CS-Remote-OPs-BOF",
+  "help": "Renames a registry key or value on a local or remote host",
+  "long_help": "Usage: reg_rename <hostname> <hive> <path> <oldname> <newname> <iskey>\n\nParameters:\n  hostname: Target hostname (e.g. WIN-SRV or \\\\\\\\WIN-SRV). Use empty string \"\" for local host.\n  hive:     Registry hive (0=HKCR, 1=HKCU, 2=HKLM, 3=HKU, 4=HKCU_LOCAL_IMP)\n  path:     Registry path (e.g. Software\\\\MyKey)\n  oldname:  Old value name to rename. Use empty string \"\" if renaming the key itself.\n  newname:  New name for the registry key or value.\n  iskey:    1 to rename a registry key, 0 to rename a registry value.",
+  "depends_on": "coff-loader",
+  "entrypoint": "go",
+  "files": [
+    {
+      "os": "windows",
+      "arch": "amd64",
+      "path": "reg_rename.x64.o"
+    },
+    {
+      "os": "windows",
+      "arch": "386",
+      "path": "reg_rename.x86.o"
+    }
+  ],
+  "arguments": [
+    {
+      "name": "hostname",
+      "desc": "Target hostname (e.g. WIN-SRV or \\\\\\\\WIN-SRV). Use empty string \"\" for local host.",
+      "type": "string",
+      "optional": false,
+      "default": ""
+    },
+    {
+      "name": "hive",
+      "desc": "Registry hive: 0 for HKCR, 1 for HKCU, 2 for HKLM, 3 for HKU, 4 for HKCU_LOCAL_IMP",
+      "type": "int",
+      "optional": false,
+      "default": 2
+    },
+    {
+      "name": "path",
+      "desc": "Registry key path (e.g. Software\\\\MyKey)",
+      "type": "string",
+      "optional": false
+    },
+    {
+      "name": "oldname",
+      "desc": "Old value name to rename. Use empty string \"\" if renaming the key itself.",
+      "type": "string",
+      "optional": false,
+      "default": ""
+    },
+    {
+      "name": "newname",
+      "desc": "New name for the registry key or value",
+      "type": "string",
+      "optional": false
+    },
+    {
+      "name": "iskey",
+      "desc": "1 to rename a registry key, 0 to rename a registry value",
+      "type": "int",
+      "optional": false,
+      "default": 1
+    }
+  ]
+}
